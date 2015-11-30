@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
-        android:paddingTop="4dp"
-        android:text="Haha's Birthday: 123 days left" />
+        android:paddingTop="4dp" />
 
 </RelativeLayout>
