@@ -3,15 +3,18 @@ package com.nancy.daycounter.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nancy.daycounter.R;
 import com.nancy.daycounter.model.DayCounter;
 import com.nancy.daycounter.model.DayCounterLab;
+import com.nancy.daycounter.util.DateUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -41,7 +44,7 @@ public class DayCounterListFragment extends ListFragment {
     }
 
     public void updateUI() {
-        ((DayCounterAdapter)(getListAdapter())).notifyDataSetChanged();
+        ((DayCounterAdapter) (getListAdapter())).notifyDataSetChanged();
     }
 
     @Override
@@ -60,6 +63,13 @@ public class DayCounterListFragment extends ListFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        DayCounter dayCounter = (DayCounter) (getListAdapter().getItem(position));
+        Log.d(TAG, dayCounter.getWhat() + " was clicked");
+        mCallbacks.onDayCounterSelected(dayCounter);
+    }
+
     private class DayCounterAdapter extends ArrayAdapter<DayCounter> {
         public DayCounterAdapter(List<DayCounter> dayCounters) {
             super(getActivity(), 0, dayCounters);
@@ -75,15 +85,15 @@ public class DayCounterListFragment extends ListFragment {
             // Configure the view for this DayCounter
             DayCounter dayCounter = getItem(position);
             TextView textView = (TextView) convertView.findViewById(R.id.day_counter_list_item_text_view);
-            Date today = new Date();
+//            Date today = new Date();
 //            boolean isFutureEvent = dayCounter.getDate().getTime() > today.getTime() ;
-            int diffInDays = (int) ((dayCounter.getDate().getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+            int diffInDays = DateUtil.diffInDays(dayCounter.getDate(), new Date());
             String title;
 
             if (diffInDays > 0) {
-                title = getString(R.string.day_counter_future_title, dayCounter.getWhat(), diffInDays);
+                title = getString(R.string.day_counter_list_future_title, dayCounter.getWhat(), diffInDays);
             } else {
-                title = getString(R.string.day_counter_past_title, dayCounter.getWhat(), -diffInDays);
+                title = getString(R.string.day_counter_list_past_title, dayCounter.getWhat(), -diffInDays);
             }
 
             textView.setText(title);

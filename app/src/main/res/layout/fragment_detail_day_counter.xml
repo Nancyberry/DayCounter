@@ -39,6 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textSize="15dp"
-        android:text="Edit"
+        android:text="@string/day_counter_detail_edit"
         />
 </LinearLayout>
