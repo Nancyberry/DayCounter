@@ -1,10 +1,14 @@
 package com.nancy.daycounter.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nancy.daycounter.R;
+import com.nancy.daycounter.activity.DayCounterEditActivity;
 import com.nancy.daycounter.model.DayCounter;
 import com.nancy.daycounter.model.DayCounterLab;
 import com.nancy.daycounter.util.DateUtil;
@@ -55,6 +60,9 @@ public class DayCounterListFragment extends ListFragment {
         mDayCounters = DayCounterLab.get(getActivity()).getDayCounters();
         DayCounterAdapter adapter = new DayCounterAdapter(mDayCounters);
         setListAdapter(adapter);
+
+        // inform fragment manager to response to option menu
+        setHasOptionsMenu(true);
         setRetainInstance(true);
     }
 
@@ -68,6 +76,29 @@ public class DayCounterListFragment extends ListFragment {
         DayCounter dayCounter = (DayCounter) (getListAdapter().getItem(position));
         Log.d(TAG, dayCounter.getWhat() + " was clicked");
         mCallbacks.onDayCounterSelected(dayCounter);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_list_day_counter, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_new_day_counter:
+                DayCounter dayCounter = new DayCounter();
+                dayCounter.setDate(new Date());
+                dayCounter.setWhat("None");
+                DayCounterLab.get(getActivity()).getDayCounters().add(dayCounter);
+                Intent i = new Intent(getActivity(), DayCounterEditActivity.class);
+                i.putExtra(DayCounterDetailFragment.EXTRA_DAY_COUNTER_ID, dayCounter.getId());
+                startActivityForResult(i, 0);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private class DayCounterAdapter extends ArrayAdapter<DayCounter> {
