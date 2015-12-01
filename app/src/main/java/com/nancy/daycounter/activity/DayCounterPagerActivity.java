@@ -1,5 +1,6 @@
 package com.nancy.daycounter.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,7 +18,7 @@ import java.util.UUID;
 /**
  * Created by nan.zhang on 11/26/15.
  */
-public class DayCounterPagerActivity extends FragmentActivity {
+public class DayCounterPagerActivity extends FragmentActivity implements DayCounterDetailFragment.Callbacks {
     ViewPager mViewPager;
 
     @Override
@@ -52,4 +53,11 @@ public class DayCounterPagerActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    public void onDayCounterEditSelected(DayCounter dayCounter) {
+        Intent intent = new Intent(this, DayCounterEditActivity.class);
+        intent.putExtra(DayCounterDetailFragment.EXTRA_DAY_COUNTER_ID, dayCounter.getId());
+        startActivityForResult(intent, 0);
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.nancy.daycounter.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,6 +29,23 @@ public class DayCounterDetailFragment extends Fragment {
     private TextView mOriginalDayTextView;
     private TextView mWhatDayTextView;
     private Button mEditButton;
+    private Callbacks mCallbacks;
+
+    public interface Callbacks {
+        public void onDayCounterEditSelected(DayCounter dayCounter);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;   // set callbacks to the activity attached to
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
 
     public static DayCounterDetailFragment newInstance(UUID dayCounterId) {
         Bundle args = new Bundle();
@@ -52,6 +70,7 @@ public class DayCounterDetailFragment extends Fragment {
         mDayCountTextView = (TextView) v.findViewById(R.id.day_count_text);
         mOriginalDayTextView = (TextView) v.findViewById(R.id.original_day_text);
         mWhatDayTextView = (TextView) v.findViewById(R.id.what_day_text);
+        mEditButton = (Button) v.findViewById(R.id.edit_detail_button);
 
         int diffInDays = DateUtil.diffInDays(mDayCounter.getDate(), new Date());
         if (diffInDays < 0) {
@@ -66,6 +85,13 @@ public class DayCounterDetailFragment extends Fragment {
         mOriginalDayTextView.setText(dateFormat.format(mDayCounter.getDate()));
 
         mWhatDayTextView.setText(mDayCounter.getWhat());
+
+        mEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallbacks.onDayCounterEditSelected(mDayCounter);
+            }
+        });
 
         return v;
     }

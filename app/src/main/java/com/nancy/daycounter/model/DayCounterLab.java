@@ -20,7 +20,7 @@ public class DayCounterLab {
 
     private DayCounterLab(Context appContext) {
         mAppContext = appContext;
-        mDayCounters = new ArrayList<DayCounter>();
+        mDayCounters = new ArrayList<>();
         Random r = new Random();
         Log.d(TAG, "loading day counters...");
 
@@ -47,12 +47,20 @@ public class DayCounterLab {
 
     public DayCounter getDayCounter(UUID uuid) {
         for (DayCounter dayCounter : mDayCounters) {
-            if (dayCounter.getId() == uuid) {
+            if (dayCounter.getId().equals(uuid)) {
                 return dayCounter;
             }
         }
         return null;
     }
+
+//    public void updateDayCounter(DayCounter newDayCounter) {
+//        for (DayCounter dayCounter : mDayCounters) {
+//            if (dayCounter.getId().equals(newDayCounter.getId())) {
+//                mDayCounters.get
+//            }
+//        }
+//    }
 
     public void addDayCounter(DayCounter dayCounter) {
         mDayCounters.add(dayCounter);

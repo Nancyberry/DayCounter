@@ -12,4 +12,7 @@
     <string name="day_counter_detail_date_format">yyyy-MM-dd</string>
     <string name="day_counter_edit_ok">OK</string>
     <string name="day_counter_detail_edit">Edit</string>
+    <string name="day_counter_edit_past_title">Days</string>
+    <string name="day_counter_edit_future_title">Days Left</string>
+    <string name="day_counter_edit_what_title">What</string>
 </resources>
