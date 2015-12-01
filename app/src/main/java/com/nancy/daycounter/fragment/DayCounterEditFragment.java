@@ -116,7 +116,7 @@ public class DayCounterEditFragment extends Fragment implements DatePicker.OnDat
 
     @Override
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        Log.d(TAG, year + "/" + monthOfYear + "/" + dayOfMonth);
+        Log.d(TAG, "update to " + year + "/" + monthOfYear + "/" + dayOfMonth);
         Date newDate = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTime();
 //        Toast.makeText(getActivity().getApplicationContext(),
 //                "onDateChanged", Toast.LENGTH_SHORT).show();

@@ -15,5 +15,6 @@
     <string name="day_counter_edit_past_title">Days</string>
     <string name="day_counter_edit_future_title">Days Left</string>
     <string name="day_counter_edit_what_title">What</string>
-    <string name="new_day_counter">New day counter</string>
+    <string name="new_day_counter">New Day Counter</string>
+    <string name="delete_day_counter">Delete Day Counter</string>
 </resources>

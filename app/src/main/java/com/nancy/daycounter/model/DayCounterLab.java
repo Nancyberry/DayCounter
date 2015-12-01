@@ -54,16 +54,12 @@ public class DayCounterLab {
         return null;
     }
 
-//    public void updateDayCounter(DayCounter newDayCounter) {
-//        for (DayCounter dayCounter : mDayCounters) {
-//            if (dayCounter.getId().equals(newDayCounter.getId())) {
-//                mDayCounters.get
-//            }
-//        }
-//    }
-
     public void addDayCounter(DayCounter dayCounter) {
         mDayCounters.add(dayCounter);
+    }
+
+    public void deleteDayCounter(DayCounter dayCounter) {
+        mDayCounters.remove(dayCounter);
     }
 
     public List<DayCounter> getDayCounters() {

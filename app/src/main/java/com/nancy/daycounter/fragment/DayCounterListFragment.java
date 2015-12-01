@@ -1,16 +1,22 @@
 package com.nancy.daycounter.fragment;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -66,9 +72,61 @@ public class DayCounterListFragment extends ListFragment {
         setRetainInstance(true);
     }
 
+    @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        ListView listView = (ListView) v.findViewById(android.R.id.list);
+        // delete crime
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            // Use floating context menus on Froyo and Gingerbread
+            registerForContextMenu(listView);
+        } else {
+            // Use contexual action bar on Honeycomb and higher
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);    // Multiple choose mode
+            listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    MenuInflater inflater = mode.getMenuInflater();
+                    inflater.inflate(R.menu.fragment_list_day_counter_context, menu);
+                    return true;
+                }
+
+                public void onItemCheckedStateChanged(ActionMode mode, int position,
+                                                      long id, boolean checked) {
+                }
+
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu_item_delete_day_counter:
+                            DayCounterAdapter adapter = (DayCounterAdapter) getListAdapter();
+                            DayCounterLab dayCounterLab = DayCounterLab.get(getActivity());
+                            for (int i = adapter.getCount() - 1; i >= 0; i--) {
+                                if (getListView().isItemChecked(i)) {
+                                    dayCounterLab.deleteDayCounter(adapter.getItem(i));
+                                }
+                            }
+                            mode.finish();
+                            adapter.notifyDataSetChanged();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                public void onDestroyActionMode(ActionMode mode) {
+
+                }
+            });
+
+        }
+
+        return v;
     }
 
     @Override
@@ -99,6 +157,28 @@ public class DayCounterListFragment extends ListFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.fragment_list_day_counter_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+        DayCounterAdapter adapter = (DayCounterAdapter) getListAdapter();
+        DayCounter dayCounter = adapter.getItem(position);
+
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete_day_counter:
+                DayCounterLab.get(getActivity()).deleteDayCounter(dayCounter);
+                adapter.notifyDataSetChanged();
+                return true;
+        }
+
+        return super.onContextItemSelected(item);
     }
 
     private class DayCounterAdapter extends ArrayAdapter<DayCounter> {
