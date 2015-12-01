@@ -8,9 +8,9 @@
         android:id="@+id/day_counter_list_item_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:paddingTop="10dp"
-        android:textSize="25dp" />
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+        android:textSize="30dp" />
 
 </RelativeLayout>

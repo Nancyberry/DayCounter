@@ -17,6 +17,7 @@
             android:layout_weight="1"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
         </DatePicker>
@@ -27,7 +28,7 @@
         android:layout_height="0dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="left"
         android:stretchColumns="1">
 
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Days"
-                android:textSize="20dp"
+                android:textSize="30dp"
                 />
 
             <TextView
@@ -47,8 +48,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:layout_marginLeft="5dp"
                 android:text="123"
-                android:textSize="20dp"
+                android:textSize="30dp"
                 />
 
         </TableRow>
@@ -61,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/day_counter_edit_what_title"
-                android:textSize="20dp"
+                android:textSize="30dp"
                 />
 
             <EditText
@@ -70,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="123"
-                android:textSize="20dp"
+                android:textSize="30dp"
                 />
 
         </TableRow>
@@ -86,9 +88,10 @@
 
         <Button
             android:id="@+id/submit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_width="120dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp"
             android:text="@string/day_counter_edit_ok"/>
     </LinearLayout>
 
