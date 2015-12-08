@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.nancy.daycounter.R;
 import com.nancy.daycounter.fragment.DayCounterDetailFragment;
@@ -20,11 +21,44 @@ import java.util.UUID;
  */
 public class DayCounterPagerActivity extends FragmentActivity implements DayCounterDetailFragment.Callbacks {
     ViewPager mViewPager;
+    private static final String TAG = DayCounterPagerActivity.class.getSimpleName();
+    public static final int EDIT_DETAIL = 1000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
+        setViewPager();
+    }
 
+    @Override
+    public void onDayCounterEditSelected(DayCounter dayCounter) {
+        Intent intent = new Intent(this, DayCounterEditActivity.class);
+        intent.putExtra(DayCounterDetailFragment.EXTRA_DAY_COUNTER_ID, dayCounter.getId());
+        startActivityForResult(intent, EDIT_DETAIL);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i(TAG, "onDestroy()");
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == EDIT_DETAIL) {
+                setViewPager();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * Set view pager and current item to render.
+     */
+    private void setViewPager() {
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.view_pager);
         setContentView(mViewPager);
@@ -51,13 +85,5 @@ public class DayCounterPagerActivity extends FragmentActivity implements DayCoun
                 break;
             }
         }
-    }
-
-    @Override
-    public void onDayCounterEditSelected(DayCounter dayCounter) {
-        Intent intent = new Intent(this, DayCounterEditActivity.class);
-        intent.putExtra(DayCounterDetailFragment.EXTRA_DAY_COUNTER_ID, dayCounter.getId());
-        startActivityForResult(intent, 0);
-
     }
 }

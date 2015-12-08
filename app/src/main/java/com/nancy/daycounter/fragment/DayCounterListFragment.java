@@ -55,6 +55,7 @@ public class DayCounterListFragment extends ListFragment {
     }
 
     public void updateUI() {
+        Log.d(TAG, "update list fragment UI");
         ((DayCounterAdapter) (getListAdapter())).notifyDataSetChanged();
     }
 
@@ -127,6 +128,13 @@ public class DayCounterListFragment extends ListFragment {
         }
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume()");
+        super.onResume();
+        updateUI();
     }
 
     @Override

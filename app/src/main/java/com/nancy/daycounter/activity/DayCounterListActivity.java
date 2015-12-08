@@ -2,18 +2,16 @@ package com.nancy.daycounter.activity;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import com.nancy.daycounter.R;
 import com.nancy.daycounter.fragment.DayCounterDetailFragment;
-import com.nancy.daycounter.fragment.DayCounterEditFragment;
 import com.nancy.daycounter.fragment.DayCounterListFragment;
 import com.nancy.daycounter.model.DayCounter;
 
 /**
  * Created by nan.zhang on 11/26/15.
  */
-public class DayCounterListActivity extends SingleFragmentActivity implements DayCounterListFragment.Callbacks, DayCounterEditFragment.Callbacks {
+public class DayCounterListActivity extends SingleFragmentActivity implements DayCounterListFragment.Callbacks {
     @Override
     protected Fragment createFragment() {
         return new DayCounterListFragment();
@@ -35,12 +33,5 @@ public class DayCounterListActivity extends SingleFragmentActivity implements Da
         } else {    // large screen with two panes
 
         }
-    }
-
-    @Override
-    public void onDayCounterUpdated(DayCounter dayCounter) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        DayCounterListFragment listFragment = (DayCounterListFragment) fragmentManager.findFragmentById(R.id.fragment_container);
-        listFragment.updateUI();
     }
 }
