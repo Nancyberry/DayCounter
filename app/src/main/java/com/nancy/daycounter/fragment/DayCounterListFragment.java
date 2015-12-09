@@ -65,7 +65,7 @@ public class DayCounterListFragment extends ListFragment {
 //        setHasOptionsMenu(true);
         getActivity().setTitle(R.string.day_counters_title);
         mDayCounters = DayCounterLab.get(getActivity()).getDayCounters();
-        DayCounterAdapter adapter = new DayCounterAdapter(mDayCounters);
+        DayCounterAdapter adapter = new DayCounterAdapter(getActivity(), R.layout.list_item_day_counter, mDayCounters);
         setListAdapter(adapter);
 
         // inform fragment manager to response to option menu
@@ -190,20 +190,29 @@ public class DayCounterListFragment extends ListFragment {
     }
 
     private class DayCounterAdapter extends ArrayAdapter<DayCounter> {
-        public DayCounterAdapter(List<DayCounter> dayCounters) {
-            super(getActivity(), 0, dayCounters);
+        private int resourceId;
+
+
+        public DayCounterAdapter(Context context, int resourceId, List<DayCounter> dayCounters) {
+            super(context, resourceId, dayCounters);
+            this.resourceId = resourceId;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // If we weren't given a view, inflate one
+            ViewHolder viewHolder;
+            // If we weren't given a cached view, inflate one
             if (null == convertView) {
-                convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_day_counter, null);
+                convertView = getActivity().getLayoutInflater().inflate(resourceId, null);
+                viewHolder = new ViewHolder();
+                viewHolder.textView = (TextView) convertView.findViewById(R.id.day_counter_list_item_text_view);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
             }
 
             // Configure the view for this DayCounter
             DayCounter dayCounter = getItem(position);
-            TextView textView = (TextView) convertView.findViewById(R.id.day_counter_list_item_text_view);
 //            Date today = new Date();
 //            boolean isFutureEvent = dayCounter.getDate().getTime() > today.getTime() ;
             int diffInDays = DateUtil.diffInDays(dayCounter.getDate(), new Date());
@@ -215,8 +224,15 @@ public class DayCounterListFragment extends ListFragment {
                 title = getString(R.string.day_counter_list_past_title, dayCounter.getWhat(), -diffInDays);
             }
 
-            textView.setText(title);
+            viewHolder.textView.setText(title);
             return convertView;
         }
+    }
+
+    /**
+     * To improve performance of ListView by caching component instances
+     */
+    private class ViewHolder {
+        TextView textView;
     }
 }
