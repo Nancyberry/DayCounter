@@ -18,11 +18,11 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fragmentManager.findFragmentById(R.id.list_fragment_container);
 
         if (null == fragment) {
             fragment = createFragment();
-            fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
+            fragmentManager.beginTransaction().add(R.id.list_fragment_container, fragment).commit();
         }
     }
 

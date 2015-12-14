@@ -25,12 +25,12 @@ public class DayCounterLab {
         Log.d(TAG, "loading day counters...");
 
         // fake day counters currently
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < 25; ++i) {
             DayCounter dayCounter = new DayCounter();
             dayCounter.setWhat("Day Counter #" + i);
-            long unixtime = ((long) (1428874353 + r.nextDouble() * 60 * 60 * 24 * 365)) * 1000;
-            Log.d(TAG, String.valueOf(unixtime));
-            Date d = new Date(unixtime);
+            long unixTime = ((long) (1428874353 + r.nextDouble() * 60 * 60 * 24 * 365)) * 1000;
+            Log.d(TAG, String.valueOf(unixTime));
+            Date d = new Date(unixTime);
             dayCounter.setDate(d);
             mDayCounters.add(dayCounter);
         }

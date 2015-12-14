@@ -30,7 +30,6 @@ public class DayCounterEditActivity extends SingleFragmentActivity implements Da
 
     @Override
     public void onDayCounterUpdated(DayCounter dayCounter) {
-        // do nothing
         Intent intent = new Intent(this, DayCounterPagerActivity.class);
         intent.putExtra(DayCounterDetailFragment.EXTRA_DAY_COUNTER_ID, dayCounter.getId());
         setResult(DayCounterPagerActivity.RESULT_OK, intent);
